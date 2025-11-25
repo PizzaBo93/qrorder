@@ -246,7 +246,10 @@
     }
 
     // Auto run khi trang load
+    window.addEventListener("DOMContentLoaded", () => {
+    console.log("🔥 DOM loaded, running createSession");
     createSession();
+});
   </script>
 </body>
 </html>
