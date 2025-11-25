@@ -647,34 +647,6 @@ async function init() {
   subscribeToOrders();
 }
 
-// Thêm hàm validate token
-async function validateToken(token) {
-  try {
-    const { data, error } = await supabase
-      .from('qr_sessions')
-      .select('*')
-      .eq('token', token)
-      .single();
-
-    if (error || !data) return false;
-
-    // Check hết hạn chưa
-    const expiresAt = new Date(data.expires_at);
-    const now = new Date();
-    
-    if (now > expiresAt) {
-      // Xóa token hết hạn
-      await supabase.from('qr_sessions').delete().eq('token', token);
-      return false;
-    }
-
-    return data;
-
-  } catch (error) {
-    console.error('Lỗi validate token:', error);
-    return false;
-  }
-}
 
 // Thêm hàm hiển thị màn hình hết hạn
 function showExpiredScreen(message) {
