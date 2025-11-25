@@ -196,7 +196,7 @@
         // Tạo token mới
         const token = generateSecureToken();
         const expiresAt = new Date();
-        expiresAt.setUTCHours(expiresAt.getUTCHours() + 1); // Thêm 1 giờ
+        expiresAt.setUTCHours(expiresAt.getUTCHours() + 24); // Thêm 1 giờ
 
         // Insert session mới
         const { data, error } = await supabase
