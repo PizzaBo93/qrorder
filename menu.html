@@ -998,8 +998,6 @@ async function validateToken(token) {
     .from('qr_sessions')
     .select('*')
     .eq('token', token)
-    .eq('store_code', storeCode)
-    .eq('table_number', tableNumber)
     .single();
 
     if (error) {
