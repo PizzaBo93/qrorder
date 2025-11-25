@@ -1029,29 +1029,34 @@ async function validateToken(token) {
       .single();
 
     if (error) {
-      console.error('Token validation error:', error);
+      console.error('❌ Token validation error:', error);
       return false;
     }
 
     if (!data) {
-      console.error('Token not found in database');
+      console.error('❌ Token not found in database');
       return false;
     }
 
-    // Check expiry
+    // ✅ FIX: So sánh đúng cách
     const expiresAt = new Date(data.expires_at);
     const now = new Date();
     
-    if (now > expiresAt) {
-      console.warn('Token expired at:', expiresAt);
+    console.log('🕐 Current time:', now.toISOString(), '/', now.toLocaleString('vi-VN'));
+    console.log('⏰ Token expires:', expiresAt.toISOString(), '/', expiresAt.toLocaleString('vi-VN'));
+    console.log('⏱️ Time left:', Math.round((expiresAt - now) / 1000 / 60), 'minutes');
+    
+    if (now >= expiresAt) {
+      console.warn('⚠️ Token expired!');
       await supabase.from('qr_sessions').delete().eq('token', token);
       return false;
     }
 
+    console.log('✅ Token valid!');
     return data;
 
   } catch (error) {
-    console.error('Validate token exception:', error);
+    console.error('🔥 Validate token exception:', error);
     return false;
   }
 }
